@@ -1,0 +1,273 @@
+-- №1 
+-- Выведите названия самолётов, которые имеют менее 50 посадочных мест.
+
+SELECT 	
+	a.aircraft_code,
+	a.model,
+	count(s.seat_no) AS "number_of_seats"
+FROM 	
+	aircrafts a
+LEFT JOIN seats s ON a.aircraft_code  = s.aircraft_code 
+GROUP BY a.aircraft_code 
+HAVING count(s.seat_no) < 50
+
+
+-- №2
+-- Выведите процентное изменение ежемесячной суммы бронирования билетов, округленной до сотых.
+
+SELECT 
+	date_trunc('MONTH', b.book_date)::date AS "Дата",
+	sum(b.total_amount) AS "Сумма бронирования",
+	ROUND(
+		(sum(b.total_amount)/
+		sum(sum(b.total_amount)) OVER ()
+		) * 100. 
+		,2) AS "%измен. суммы помесячно" ,
+	ROUND(
+		 (
+	  	(sum(b.total_amount) - LAG(sum(b.total_amount), 1) OVER (ORDER BY date_trunc('MONTH', b.book_date) ASC) ) / 
+		(LAG(sum(b.total_amount), 1) OVER (ORDER BY date_trunc('MONTH', b.book_date) ASC) )
+		 )* 100,
+		2) AS "%измен. суммы к предыдущ. месяцу"
+FROM bookings b
+GROUP BY date_trunc('MONTH', b.book_date)
+
+	
+-- №3 
+-- Выведите названия самолётов без бизнес-класса. Используйте в решении функцию array_agg.
+
+SELECT 
+	bc."тип ВС",
+	bc. "класс/кол-во мест"
+FROM (
+	SELECT 
+		a.model AS "тип ВС",
+		string_agg (t.fare_conditions || ' / ' || t."number"::text , ', ') as "класс/кол-во мест",
+		array_agg (t.fare_conditions)		
+	FROM (
+	 	SELECT
+	 		s.aircraft_code, 
+	 		s.fare_conditions, 
+	 		count(*) AS "number"
+	 	FROM
+	 		seats s
+	 	GROUP BY s.aircraft_code, s.fare_conditions
+	 	) t
+	LEFT JOIN aircrafts a ON  t.aircraft_code = a.aircraft_code
+	GROUP BY t.aircraft_code, a.aircraft_code
+	) bc	
+WHERE NOT 'Business' = ANY ( bc.array_agg)
+
+
+-- №4
+-- Выведите накопительный итог количества мест в самолётах по каждому аэропорту на каждый день. 
+-- Учтите только те самолеты, которые летали пустыми и только те дни, когда из одного аэропорта вылетело более одного такого самолёта.
+-- Выведите в результат код аэропорта, дату вылета, количество пустых мест и накопительный итог.
+
+SELECT
+	t1.departure_airport  AS "аэропорт вылета",
+	t1.date_trunc AS "дата",
+	t2."кол-во мест в ВС",
+	sum (t2."кол-во мест в ВС") OVER ( partition BY t1.departure_airport , t1.date_trunc ORDER BY t1.flight_id ) AS "накопительный итог"
+FROM 
+(	
+	SELECT 
+		f.flight_id,
+		f.departure_airport ,
+		date_trunc('day',f.scheduled_departure )::date,
+		f.aircraft_code,
+		count (*) over (partition BY f.departure_airport, date_trunc('day',f.scheduled_departure )::date)
+	FROM 
+		flights f
+	LEFT JOIN boarding_passes bp ON f.flight_id = bp.flight_id  
+	WHERE bp.boarding_no IS NULL
+		AND f.status IN ('Arrived', 'Departed')
+	GROUP BY f.flight_id
+) t1
+LEFT JOIN
+(
+	SELECT 	
+		a.aircraft_code,
+		count(s.seat_no) AS "кол-во мест в ВС"
+	FROM 	
+		aircrafts a
+	LEFT JOIN seats s ON a.aircraft_code  = s.aircraft_code 
+	GROUP BY a.aircraft_code
+) t2
+ON t1.aircraft_code = t2.aircraft_code
+WHERE t1.count  > 1		
+	
+
+-- №5
+-- Найдите процентное соотношение перелётов по маршрутам от общего количества перелётов. 
+-- Выведите в результат названия аэропортов и процентное отношение.
+-- Используйте в решении оконную функцию.
+ 
+SELECT 	
+	a.airport_name AS "аэропорт вылета",
+	round(
+		( sum(t.count) / 
+		  sum( sum(t.count) )  OVER () 
+		 )*100.
+		,2) AS "% перелетов по маршруту от общего"
+FROM 
+(
+	SELECT
+		f.departure_airport,
+		concat_ws('-', f.departure_airport , f.arrival_airport),
+		count(f.flight_id)
+	FROM
+		flights f
+	WHERE f.status = 'Arrived'
+	GROUP BY f.departure_airport,
+			 f.arrival_airport		
+) t 
+LEFT JOIN airports a ON a.airport_code  = t.departure_airport
+GROUP BY  a.airport_code
+ORDER BY a.airport_name
+
+
+-- №6
+-- Выведите количество пассажиров по каждому коду сотового оператора. 
+-- Код оператора – это три символа после +7
+
+SELECT 
+	substring( (contact_data -> 'phone')::text , 4,3) AS "код оператора",
+	count (passenger_id) AS "кол-во пассажиров"
+FROM 
+	tickets t 
+GROUP BY "код оператора"
+ORDER BY "код оператора" 
+
+
+-- №7
+--  Классифицируйте финансовые обороты (сумму стоимости билетов) по маршрутам:
+--	до 50 млн – low
+--	от 50 млн включительно до 150 млн – middle
+--	от 150 млн включительно – high
+-- Выведите в результат количество маршрутов в каждом полученном классе.
+
+
+SELECT 
+	 t."class",
+	 count (*) AS "number of routes"
+FROM 
+(
+	SELECT 	
+		concat_ws('-', f.departure_airport , f.arrival_airport) AS "route",
+		sum (tf.sum),
+		CASE
+			WHEN sum (tf.sum) < 50*10^6 then 'low'
+			WHEN sum (tf.sum) < 150*10^6 then 'middle'
+			WHEN sum (tf.sum) >= 150*10^6 then 'hight'
+			ELSE  'empty' -- без пассажиров
+		END AS "class"
+		FROM flights f 
+	LEFT JOIN
+	(
+		SELECT 
+			flight_id,
+			sum(amount)
+		FROM 
+			ticket_flights 
+		GROUP BY flight_id
+	) tf
+	ON f.flight_id = tf.flight_id
+	WHERE f.status != 'Cancelled'
+	GROUP BY f.departure_airport , f.arrival_airport
+) t
+GROUP BY t."class"
+ORDER BY count(*)
+
+
+-- #№8 
+-- Вычислите:
+--	медиану стоимости билетов, 
+--	медиану стоимости бронирования 
+--	и отношение медианы бронирования к медиане стоимости билетов, 
+-- результат округлите до сотых. 
+
+
+SELECT
+	(SELECT
+		percentile_cont(0.5) within GROUP (ORDER BY tf.amount) AS "median ticket"
+	FROM 
+		ticket_flights tf ),
+	(SELECT
+		percentile_cont(0.5) within GROUP (ORDER BY b.total_amount) AS "median booking"
+	FROM 
+		bookings b ),
+	round( 
+		(SELECT
+			percentile_cont(0.5) within GROUP (ORDER BY b.total_amount) AS "median booking"
+		FROM 
+			bookings b )::numeric / 
+		(SELECT
+			percentile_cont(0.5) within GROUP (ORDER BY tf.amount) AS "median ticket"
+		FROM 
+			ticket_flights tf)::numeric
+		
+		,2) AS "median booking / median ticket"
+	
+
+-- №9
+-- Найдите значение минимальной стоимости одного километра полёта для пассажира.
+-- Для этого определите расстояние между аэропортами и учтите стоимость билетов.
+-- Для поиска расстояния между двумя точками на поверхности Земли используйте дополнительный модуль earthdistance. 
+-- Для работы данного модуля нужно установить ещё один модуль – cube.
+
+CREATE EXTENSION CUBE
+
+CREATE EXTENSION earthdistance
+
+
+SELECT 
+	round(
+		min (t_cost.min_amount / t_dist.distance)::numeric 
+		,2 ) AS "MIN стоимость 1 км полета"	
+FROM 
+(
+	SELECT 
+		f.flight_id,
+		tf.min_amount,
+		concat_ws('-', f.departure_airport , f.arrival_airport) AS "route"
+	FROM 
+		flights f 
+	INNER JOIN 
+	(
+		SELECT 	
+			flight_id,
+			min(amount) AS min_amount
+		FROM 
+			ticket_flights 
+		GROUP BY  flight_id 
+	) tf
+	ON f.flight_id  = tf.flight_id
+) t_cost
+LEFT JOIN
+(
+	SELECT 
+		r.dep,
+		r.arr,
+		r.route,
+		earth_distance(
+				ll_to_earth(a_dep.latitude, a_dep.longitude),
+				ll_to_earth(a_arr.latitude, a_arr.longitude)  ) / 1000 AS distance
+	FROM
+	(
+		SELECT 
+			f.departure_airport AS dep,
+			f.arrival_airport AS arr,
+			concat_ws('-', f.departure_airport , f.arrival_airport) AS "route"
+		FROM
+			flights f 
+		GROUP BY f.departure_airport, f.arrival_airport
+	) r 
+	LEFT JOIN airports a_dep ON r.dep =  a_dep.airport_code 
+	LEFT JOIN airports a_arr ON r.arr = a_arr.airport_code
+) t_dist
+ON t_cost.route = t_dist.route
+GROUP BY t_dist.route
+ORDER BY "MIN стоимость 1 км полета" ASC 
+LIMIT 1
+
