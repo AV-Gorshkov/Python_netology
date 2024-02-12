@@ -56,7 +56,7 @@
 - pandas
 - matplotlib
 
-10. [Основы статистикиъ(https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B_%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B8.ipynb)
+10. [Основы статистики](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B_%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B8.ipynb)
 
     [Статитика. Построение моделей](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%9A%D0%B5%D0%B9%D1%81_%D0%A1%D1%82%D0%B0%D0%B4%D0%B8.ipynb)
 
