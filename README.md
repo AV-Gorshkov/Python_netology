@@ -95,6 +95,6 @@
 
 14.[Модель ARIMA / SARIMA](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C_ARIMA.ipynb)
 
-    Задание:
+   Задание:
  - Возять ряд, постороить модель ARIMA.
  - Cпрогнозировать график классическим ML.
