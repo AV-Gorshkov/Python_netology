@@ -98,3 +98,8 @@
    Задание:
  - Возять ряд, постороить модель ARIMA.
  - Cпрогнозировать график классическим ML.
+
+15. [Модель Garch](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_garch.ipynb)
+
+   Задание:
+ - Возять ряд  и постройте его модель GARCH.
