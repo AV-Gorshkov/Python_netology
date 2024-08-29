@@ -82,12 +82,12 @@
 |8|Рассчитать следующие показатели среди уволившихся и не уволившихся сотрудников (по отдельности):Доля сотрудников с повышением за последние 5 лет; Средняя степень удовлетворенности; Среднее количество проектов|
 |9|Разделить данные на тестовую и обучающую выборки. Построить модель LDA, предсказывающую уволился ли сотрудник на основе имеющихся факторов (кроме department и salary). Оценить качество модели на тестовой выборки.|
 
-12.[Временные ряды, общая теория](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5_%D1%80%D1%8F%D0%B4%D1%8B_%D0%BE%D0%B1%D1%89%D0%B0%D1%8F_%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F.ipynb)
+12. [Временные ряды, общая теория](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5_%D1%80%D1%8F%D0%B4%D1%8B_%D0%BE%D0%B1%D1%89%D0%B0%D1%8F_%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F.ipynb)
 
 Задание:
  - Проанализировать временных ряды, сделайте их стационарными.
 
-13.[Элементарные_методы_анализа_временных_рядов](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%AD%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B_%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0_%D0%B2%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D1%85_%D1%80%D1%8F%D0%B4%D0%BE%D0%B2.ipynb)
+13. [Элементарные_методы_анализа_временных_рядов](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%AD%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B_%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0_%D0%B2%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D1%85_%D1%80%D1%8F%D0%B4%D0%BE%D0%B2.ipynb)
 
    Задание:
  - Возять ряд — стационарный и не стационарный. Приблизьте оба варианта моделями из класса MA.
@@ -119,25 +119,25 @@
    Используя матрицу переходных вероятностей, сгенерируйте слово, начинающееся с буквы «Б» длиной восемь символов.
 - Выберать ряд, оцените его через HMM. Построить наивный прогноз ряда
 
-18.[Поиск изменений](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_10_%D0%9F%D0%BE%D0%B8%D1%81%D0%BA_%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9.ipynb)
+18. [Поиск изменений](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_10_%D0%9F%D0%BE%D0%B8%D1%81%D0%BA_%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9.ipynb)
 
  Задание:
 - Выберите ряд, на котором происходит аномалия. Примените к нему разные способы поиска анамолий.
 
-19.[ML-Рекомендательные системы. Рекомендации_на_основе_содержания](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%A0%D0%B5%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D0%B4%D0%B0%D1%86%D0%B8%D0%B8_%D0%BD%D0%B0_%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%B5_%D1%81%D0%BE%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D0%BD%D0%B8%D1%8F.ipynb)
+19. [ML-Рекомендательные системы. Рекомендации_на_основе_содержания](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%A0%D0%B5%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D0%B4%D0%B0%D1%86%D0%B8%D0%B8_%D0%BD%D0%B0_%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%B5_%D1%81%D0%BE%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D0%BD%D0%B8%D1%8F.ipynb)
 
 Задание:
  - Использовать датасет MovieLens
  - Построить рекомендации (регрессия, предсказываем оценку) на фичах: TF-IDF на тегах и жанрах; средние оценки (+ median, variance и т.       д.) пользователя и фильма.
  - Оценить RMSE на тестовой выборке.
 
-20.[ML-Рекомендательные системы. Коллаборативная фильтрация](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%9A%D0%BE%D0%BB%D0%BB%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D0%B0%D1%8F_%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F.ipynb)
+20. [ML-Рекомендательные системы. Коллаборативная фильтрация](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%9A%D0%BE%D0%BB%D0%BB%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D0%B0%D1%8F_%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F.ipynb)
 
 Задание:
  - Датасет MovieLens:
  - Использовать пакет SURPRISE (любые модели из пакета), получите RMSE на тестовом сете 0,87 и ниже.
 
-21[ML-Рекомендательные системы. Гибридные_рекомендательные_системы](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%93%D0%B8%D0%B1%D1%80%D0%B8%D0%B4%D0%BD%D1%8B%D0%B5_%D1%80%D0%B5%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5_%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B.ipynb)
+21. [ML-Рекомендательные системы. Гибридные_рекомендательные_системы](https://github.com/AV-Gorshkov/Python_netology/blob/main/PY_%D0%93%D0%B8%D0%B1%D1%80%D0%B8%D0%B4%D0%BD%D1%8B%D0%B5_%D1%80%D0%B5%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5_%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B.ipynb)
 
 Задание:
    - Датасет MovieLens:
